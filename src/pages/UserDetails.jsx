@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById, clearSelectedUser } from "../redux/slices/usersSlice";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 import { Typography, Button, Divider } from "@mui/material";
 import BoxContainer from "../styles/BoxContainer.styles";
 import Loader from "./Loader";
@@ -9,6 +9,7 @@ import Loader from "./Loader";
 const UserDeatils = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const navigate=useNavigate();
     const { selectedUser, loading } = useSelector((state) => state.users);
     console.log("selectedUser::",selectedUser)
     useEffect(() => {
@@ -36,9 +37,9 @@ const UserDeatils = () => {
                 {/* Address Section */}
                 <Typography variant="h6" sx={{ mt: 2 }}>Address</Typography>
                 <Typography variant="body1">{selectedUser.address.city}</Typography>
-                {/* Buttons */}
+                {/* Button */}
                 <div className="button-group" style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
-                    <Button href="/" variant="contained">
+                    <Button onClick={()=>navigate("/")} variant="contained">
                         View posts
                     </Button>
                 </div>

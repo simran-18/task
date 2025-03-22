@@ -33,7 +33,7 @@ describe("PostsTable Component", () => {
         </Provider>
       </MemoryRouter>
     );
-
+  
     // Check if post titles are rendered
     expect(screen.getByText("qui est esse")).toBeInTheDocument();
     expect(screen.getByText("qui et at rerum necessitatibus")).toBeInTheDocument();

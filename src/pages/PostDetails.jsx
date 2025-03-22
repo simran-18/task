@@ -4,6 +4,7 @@ import { getPostById, clearSelectedPost } from "../redux/slices/postsSlice";
 import { useParams } from "react-router-dom";
 import { Typography, CircularProgress, Button, Divider } from "@mui/material";
 import BoxContainer from "../styles/BoxContainer.styles";
+import Loader from "./Loader";
 
 const PostDetails = () => {
     const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const PostDetails = () => {
         return () => dispatch(clearSelectedPost());
     }, [dispatch, id]);
 
-    if (loading) return <CircularProgress />;
+    if (loading) return <Loader/>;
     if (!selectedPost) return <Typography>No post found</Typography>;
 
     return (

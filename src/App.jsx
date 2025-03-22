@@ -10,6 +10,7 @@ function App() {
       <Route path="/" element={<PostsTable/>}/>
       <Route path="/post/:id" element={<PostDetails/>}/>
       <Route path="/user/:id" element={<UserDeatils/>}/>
+      <Route path="*" element={<PostsTable/>}/>
     </Routes>
     </BrowserRouter>
   );

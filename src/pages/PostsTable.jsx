@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../redux/slices/postsSlice";
 import { DataGrid } from "@mui/x-data-grid";
-import { Typography, CircularProgress, MenuItem, Checkbox, InputAdornment, ListItemText } from "@mui/material";
+import { Typography, MenuItem, Checkbox, InputAdornment, ListItemText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { StyledLink } from "../styles/StyledLink.styles";
 import {
@@ -16,6 +16,7 @@ import {
 } from "../styles/PostsTable.styles";
 import SearchIcon from "@mui/icons-material/Search";
 import useDebounce from "../hooks/useDebounce";
+import Loader from "./Loader";
 
 const PostsTable = () => {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const PostsTable = () => {
             width: 70,
             align: "center",
             headerAlign: "center",
-            renderCell: (params) => <StyledLink to={`/post/${params.row.id}`}>{params.row.id}</StyledLink>,
+            renderCell: (params) => <StyledLink to={`/post/${params.row.id}`} onClick={(e) => e.stopPropagation()} >{params.row.id}</StyledLink>,
         },
         {
             field: "userId",
@@ -54,7 +55,7 @@ const PostsTable = () => {
             width: 100,
             headerAlign: "center",
             align: "center",
-            renderCell: (params) => <StyledLink to={`/user/${params.row.userId}`}>{params.row.userId}</StyledLink>,
+            renderCell: (params) => <StyledLink to={`/user/${params.row.userId}`} onClick={(e) => e.stopPropagation()} >{params.row.userId}</StyledLink>,
         },
         { field: "title", headerName: "Title", width: 250, headerAlign: "center" },
         { field: "body", headerName: "Description", width: 600, headerAlign: "center" },
@@ -119,7 +120,7 @@ const PostsTable = () => {
                 <DataGridWrapper>
                     {loading ? (
                         <LoadingContainer>
-                            <CircularProgress size={40} />
+                           <Loader/>
                         </LoadingContainer>
                     ) : error ? (
                         <Typography align="center" color="error">
@@ -127,12 +128,13 @@ const PostsTable = () => {
                         </Typography>
                     ) : (
                         <DataGrid
+                            disableRowSelectionOnClick
                             rows={filteredPosts}
                             columns={columns}
                             pageSize={5}
                             rowsPerPageOptions={[5, 10, 20]}
                             disableSelectionOnClick
-                            onRowClick={(params) => navigate(`/post/${params.id}`)}
+                            getRowId={(row) => row.id} 
                             sx={{
                                 borderRadius: 2,
                                 height: "100%",

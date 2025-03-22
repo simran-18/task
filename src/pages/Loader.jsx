@@ -1,11 +1,12 @@
-import { CircularProgress } from '@mui/material'
 import React from 'react'
-import {LoaderContainer} from '../styles/Loader.styles'
+import BoxContainer from '../styles/BoxContainer.styles'
 const Loader = () => {
   return (
-    <LoaderContainer>
-        <CircularProgress/>
-    </LoaderContainer>
+      <BoxContainer>
+        <div className='content'>
+        Loading...
+        </div>
+      </BoxContainer>
   )
 }
 

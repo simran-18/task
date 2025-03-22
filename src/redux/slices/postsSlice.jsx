@@ -4,6 +4,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchPosts = createAsyncThunk("posts/fetchAll", async (_, { rejectWithValue }) => {
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch posts: ${response.status} ${response.statusText}`);
+    }
     return await response.json();
   } catch (error) {
     return rejectWithValue(error.message);
@@ -14,6 +17,9 @@ export const fetchPosts = createAsyncThunk("posts/fetchAll", async (_, { rejectW
 export const getPostById = createAsyncThunk("posts/fetchById", async (id, { rejectWithValue }) => {
   try {
     const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch post: ${response.status} ${response.statusText}`);
+    }
     return await response.json();
   } catch (error) {
     return rejectWithValue(error.message);

@@ -27,9 +27,9 @@ const PostsTable = () => {
     const debouncedTerm = useDebounce(searchTerm, 500);
 
     useEffect(() => {
-        if (!posts.length) {
-            dispatch(fetchPosts());
-        }
+        if (posts.length === 0) {
+            dispatch(fetchPosts()); 
+          }
     }, [dispatch, posts.length]);
 
     // Handle User ID Selection (Multi-Select)
@@ -66,7 +66,7 @@ const PostsTable = () => {
             post.title.toLowerCase().includes(debouncedTerm?.toLowerCase()) &&
             (userIdFilter.length === 0 || userIdFilter.includes(post.userId))
     );
-
+  
     return (
         <Container>
             <StyledPaper elevation={3}>

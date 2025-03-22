@@ -22,7 +22,7 @@ const UserDeatils = () => {
     return (
         <BoxContainer>
             <div className="content">
-                <Typography variant="h5">User Detail</Typography>
+                <Typography variant="h5">User Details</Typography>
                 <Divider sx={{ width: "100%",mb:2, borderBottomWidth: 2 }} />
 
                 {/* Name Section */}

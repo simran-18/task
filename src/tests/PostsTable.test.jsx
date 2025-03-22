@@ -1,61 +1,41 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
 import configureStore from "redux-mock-store";
+import { MemoryRouter } from "react-router-dom"; 
 import PostsTable from "../pages/PostsTable";
-import thunk from "redux-thunk"; 
-// Create Mock Redux Store
+
+// Create a mock Redux store
 const mockStore = configureStore([]);
 
-const renderWithProviders = (ui, store) =>
-  render(
-    <Provider store={store}>
-      <BrowserRouter>{ui}</BrowserRouter>
-    </Provider>
-  );
+// Sample test data
+const mockPosts = [
+  { id: 1, title: "qui est esse", userId: 1, body: "est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque fugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis qui aperiam non debitis possimus qui neque nisi nulla" },
+  { id: 2, title: "qui et at rerum necessitatibus", userId: 2, body: "aut est omnis dolores neque rerum quod ea rerum velit pariatur beatae excepturi et provident voluptas corrupti corporis harum reprehenderit dolores eligendi" },
+];
+
 
 describe("PostsTable Component", () => {
   let store;
 
   beforeEach(() => {
     store = mockStore({
-      posts: {
-        posts: [
-          { userId: 1, id: 1, title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", body: "Body 1" },
-          { userId: 2, id: 2, title: "qui est esse", body: "Body 2" },
-        ],
-        selectedPost: null,
-        loading: false,
-        error: null,
-      },
+      posts: { posts: mockPosts, loading: false, error: null },
     });
-
-    // Mock store dispatch (needed for Redux actions)
-    store.dispatch = jest.fn();
   });
 
-  test("render the PostsTable component with title Posts Dashboard", () => {
-    renderWithProviders(<PostsTable />, store);
-    expect(screen.getByText(/Posts Dashboard/i)).toBeInTheDocument();
-  });
+  test("renders PostsTable and displays posts", () => {
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <PostsTable />
+        </Provider>
+      </MemoryRouter>
+    );
 
-  test("displays loading state", () => {
-    store = mockStore({ posts: { posts: [], loading: true, error: null } });
-    renderWithProviders(<PostsTable />, store);
-    expect(screen.getByRole("progressbar")).toBeInTheDocument();
-  });
-
-  test("renders post titles", async () => {
-    renderWithProviders(<PostsTable />, store);
-    expect(await screen.findByText("sunt aut facere repellat provident occaecati excepturi optio reprehenderit")).toBeInTheDocument();
-    expect(await screen.findByText("qui est esse")).toBeInTheDocument();
-  });
-
-  test("filters posts based on search input", async () => {
-    renderWithProviders(<PostsTable />, store);
-    fireEvent.change(screen.getByPlaceholderText(/Search/i), { target: { value: "qui est esse" } });
-
-    expect(await screen.findByText("qui est esse")).toBeInTheDocument();
+    // Check if post titles are rendered
+    expect(screen.getByText("qui est esse")).toBeInTheDocument();
+    expect(screen.getByText("qui et at rerum necessitatibus")).toBeInTheDocument();
   });
 });

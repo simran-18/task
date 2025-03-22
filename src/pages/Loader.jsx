@@ -1,11 +1,12 @@
 import React from 'react'
 import BoxContainer from '../styles/BoxContainer.styles'
+import { Typography } from '@mui/material'
 const Loader = () => {
   return (
       <BoxContainer>
-        <div className='content'>
-        Loading...
-        </div>
+        <Typography variant='h3'>
+          Loading...
+        </Typography>
       </BoxContainer>
   )
 }
